@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1PkJkIT3FTsK3T0PDkL2qccGC7O6sNGV5efVYWA/HP/XX3XW7nKj8Tyuxv6kBLpfXRSVCrH+alR9qVihWp40Mw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+:root {
+    --background: #f8f8f8;
+    ;
+    --navbar-width: 256px;
+    --navbar-width-min: 80px;
+    --navbar-dark-primary: #18283b;
+    --navbar-dark-secondary: #2c3e50;
+    --navbar-light-primary: #f5f6fa;
+    --navbar-light-secondary: #8392a5;
+}
+ 
+html,
+body {
+    margin: 0;
+    background: var(--background);
+}
+ 
+#nav-toggle:checked~#nav-header {
+    width: calc(var(--navbar-width-min) - 16px);
+}
+ 
+#nav-toggle:checked~#nav-content,
+#nav-toggle:checked~#nav-footer {
+    width: var(--navbar-width-min);
+}
+ 
+#nav-toggle:checked~#nav-header #nav-title {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .1s;
+}
+ 
+#nav-toggle:checked~#nav-header label[for='nav-toggle'] {
+    left: calc(50% - 8px);
+    transform: translate(-50%);
+}
+ 
+#nav-toggle:checked~#nav-header #nav-toggle-burger {
+    background: var(--navbar-light-primary);
+}
+ 
+#nav-toggle:checked~#nav-header #nav-toggle-burger:before,
+#nav-toggle:checked~#nav-header #nav-toggle-burger::after {
+    width: 16px;
+    background: var(--navbar-light-secondary);
+    transform: translate(0, 0) rotate(0deg);
+}
+ 
+#nav-toggle:checked~#nav-content .nav-button span,
+#nav-toggle:checked~#nav-footer #nav-footer-titlebox,
+#nav-toggle:checked~#nav-footer label[for='nav-footer-toggle'] {
+    opacity: 0;
+    transition: opacity .1s;
+    pointer-events: none;
+}
+ 
+#nav-bar {
+    position: fixed;
+    left: 1vw;
+    top: 1vw;
+    height: calc(100% - 2vw);
+    background: var(--navbar-dark-primary);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    color: var(--navbar-light-primary);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    overflow: hidden;
+    user-select: none;
+    margin-left: -15px;
+    z-index: 1000;
+    top: 0;
+    height: 710px;
+    padding-top: -30px;
+}
+ 
+#nav-bar hr {
+    margin: 0;
+    position: relative;
+    left: 16px;
+    width: calc(100% - 32px);
+    border: none;
+    border-top: solid 1px var(--navbar-dark-secondary);
+}
+ 
+#nav-bar a {
+    color: inherit;
+    text-decoration: inherit;
+}
+ 
+#nav-bar input[type='checkbox'] {
+    display: none;
+}
+ 
+#nav-header {
+    position: relative;
+    width: var(--navbar-width);
+    left: 16px;
+    min-height: 80px;
+    background: var(--navbar-dark-primary);
+    border-radius: 16px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    transition: width .2s;
+    top: 0;
+ 
+}
+ 
+#nav-title {
+    font-size: 1.5rem;
+    transition: opacity 1s;
+}
+ 
+label[for='nav-toggle'] {
+    position: absolute;
+    right: 0;
+    width: 3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+ 
+#nav-toggle-burger {
+    position: relative;
+    width: 16px;
+    height: 2px;
+    background: var(--navbar-dark-primary);
+    border-radius: 99px;
+    transition: background .2s;
+}
+ 
+#nav-toggle-burger:before,
+#nav-toggle-burger::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    width: 10px;
+    height: 2px;
+    background: var(--navbar-light-primary);
+    border-radius: 99px;
+    transform: translate(2px, 8px) rotate(30deg);
+    transition: .2s;
+}
+ 
+#nav-toggle-burger::after {
+    top: 6px;
+    transform: translate(2px, -8px) rotate(-30deg);
+}
+ 
+#nav-content {
+    margin: -16px 0;
+    padding: 48px 0;
+    position: relative;
+    flex: 1;
+    width: var(--navbar-width);
+    background: var(--navbar-dark-primary);
+    box-shadow: 0 0 0 16px var(--navbar-dark-primary);
+    direction: rtl;
+    overflow-x: hidden;
+    transition: width .2s;
+    top: -48px;
+}
+ 
+#nav-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+ 
+#nav-content::-webkit-scrollbar-thumb {
+    border-radius: 99px;
+    background-color: #D62929;
+}
+ 
+.nav-button {
+    position: relative;
+    margin-left: 16px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    color: var(--navbar-light-secondary);
+    direction: ltr;
+    cursor: pointer;
+    z-index: 1;
+    transition: color .2s;
+}
+ 
+.nav-button span {
+    transition: opacity 1s;
+}
+ 
+.nav-button .fas {
+    transition: min-width .2s;
+}
+ 
+#nav-footer {
+    position: relative;
+    width: var(--navbar-width);
+    height: 54px;
+    background: var(--navbar-dark-secondary);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    transition: width .2s, height .2s;
+}
+ 
+#nav-footer-heading {
+    position: relative;
+    width: 100%;
+    height: 54px;
+    display: flex;
+    align-items: center;
+}
+ 
+#nav-footer-avatar {
+    position: relative;
+    margin: 11px 0 11px 16px;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    transform: translate(0);
+    transition: .2s;
+}
+ 
+#nav-footer-avatar img {
+    height: 100%;
+}
+ 
+#nav-footer-titlebox {
+    position: relative;
+    margin-left: 16px;
+    width: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 1s;
+}
+ 
+#nav-footer-subtitle {
+    color: var(--navbar-light-secondary);
+    font-size: .6rem;
+}
+ 
+label[for='nav-footer-toggle'] {
+    position: absolute;
+    right: 0;
+    width: 3rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform .2s, opacity .2s;
+}
+ 
+#nav-footer-content {
+    margin: 0 16px 16px 16px;
+    border-top: solid 1px var(--navbar-light-secondary);
+    padding: 16px 0;
+    color: var(--navbar-light-secondary);
+    font-size: .8rem;
+    overflow: auto;
+}
+ 
+#nav-footer-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+ 
+#nav-footer-content::-webkit-scrollbar-thumb {
+    border-radius: 99px;
+    background-color: #D62929;
+}
+ 
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    padding-left: 162px;
+}
+ 
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+ 
+.footer-links,
+.footer-contact,
+.footer-social {
+    flex: 1;
+    padding: 0 20px;
+}
+ 
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+ 
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+ 
+.footer-links ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+ 
+.footer-contact p {
+    margin: 5px 0;
+}
+ 
+.footer-social {
+    flex: 1;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    /* Change flex-direction to column */
+}
+ 
+.footer-social ul {
+    list-style: none;
+    padding: 0;
+}
+ 
+.footer-social ul li {
+    margin-bottom: 10px;
+    /* Add margin-bottom instead of margin-right */
+}
+ 
+.footer-social ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+ 
+.footer-bottom {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #666;
+}
+ 
+ 
+    @media (max-width: 600px) {
+    #nav-bar {
+        height: 671px !important;
+        width: 155px !important;
+        /* Set width to 160px for screens smaller than 600px */
+    }
+ 
+    h1 {
+        font-size: 22px !important;
+        padding-left: 154px !important;
+    }
+ 
+    img {
+        padding-left: 153px !important;
+        padding-top: 21px !important;
+        height: 118px !important;
+    }
+ 
+    .container123 {
+        font-size: x-small !important;
+        margin-left: 140px !important;
+        width: 350px !important;
+    }
+ 
+    .d-flex {
+        flex-direction: column !important;
+        /* Change flex direction to column */
+        margin-left: 150px !important;
+        /* Remove left margin */
+    }
+ 
+    .card {
+        max-width: 540px !important;
+        /* Set max-width for cards */
+        margin-bottom: 10px !important;
+        /* Add space between cards */
+        width: 220px !important;
+        margin-left: 153px !important;
+    }
+ 
+    .card-img-top {
+        width: 168% !important;
+        margin-left: -154px !important;
+    }
+ 
+    .footer-container {
+        flex-direction: column;
+    }
+ 
+    .footer-links,
+    .footer-contact,
+    .footer-social {
+        margin-bottom: 30px;
+        margin-right: 20px;
+    }
+ 
+    .footer-bottom p {
+        margin-top: -29px;
+        margin-bottom: 4rem;
+        margin-right: 53px;
+ 
+    }
+ 
+    .carousel-item {
+        margin-left: 200px;
+ 
+    }
+ 
+    #carouselExampleAutoplaying {
+        margin-right: -85px;
+        margin-left: -198px;
+    }
+ 
+    .card-body {
+        margin-left: -2px !important;
+    }
+ 
+    .form_contact {
+        margin-left: 157px !important;
+        width: 55%;
+    }
+    #contactForm{
+        margin-left:158px !important;
+        padding-right: 20px ;
+       
+ 
+    }
+    #successMessage{
+        display: block;
+    padding-left: 160px !important;
+    }
+ 
+}
+ 
+    </style>
+</head>
+<body>
+ 
+    <nav id="nav-bar" style="width: 200px; height: 728px;">
+        <input id="nav-toggle" type="checkbox">
+        <div id="nav-header" style="top: 43px; ">
+            <a id="nav-title" target="_blank"><i class="fab fa-codepen"></i>Categories</a>
+            <label for="nav-toggle"><span id="nav-toggle-burger"></span></label>
+            <hr>
+        </div>
+        <div id="nav-content">
+            <a href="#">
+                <div class="nav-button"><i class="fas fa-palette"></i><span>About Us</span></div>
+            </a>
+            <a href="logged_in.html">
+                <div class="nav-button"><i class="fas fa-palette"></i><span>About</span></div>
+            </a>
+            <a href="document.html">
+                <div class="nav-button"><i class="fas fa-images"></i><span>Documentations</span></div>
+            </a>
+            <a href="certificate.html">
+                <div class="nav-button"><i class="fas fa-thumbtack"></i><span>Certifications</span></div>
+            </a>
+            <a href="qualification.html">
+                <div class="nav-button"><i class="fas fa-heart"></i><span>Qualifications</span></div>
+            </a>
+            <a href="media.html">
+                <div class="nav-button"><i class="fas fa-chart-line"></i><span>Media</span></div>
+            </a>
+            <a href="contact.html">
+                <div class="nav-button"><i class="fas fa-fire"></i><span>Contact </span></div>
+            </a>
+            <a href="review.html">
+                <div class="nav-button"><i class="fas fa-fire"></i><span>Review </span></div>
+            </a>
+ 
+            <div id="nav-content-highlight"></div>
+        </div>
+ 
+ 
+ 
+        <input id="nav-footer-toggle" type="checkbox">
+        <div id="nav-footer">
+            <div id="nav-footer-heading">
+                <div id="nav-footer-avatar">
+                    <img src="https://webappimages-1.s3.ap-south-1.amazonaws.com/navprofile.jpeg">
+                </div>
+                <div id="nav-footer-titlebox">
+                    <a id="nav-footer-title" target="_blank"> Bilal</a>
+                    <span id="nav-footer-subtitle">Hello</span>
+                </div>
+                <label for="nav-footer-toggle"><i class="fas fa-caret-up"></i></label>
+            </div>
+            <div id="nav-footer-content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.
+            </div>
+        </div>
+    </nav>
+ 
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="position: sticky; top: 0; z-index: 1000;">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="font-weight: bolder;" href="#">B.Chronicle</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent"
+                style="background-color: rgb(212, 211, 211); border-radius: 10px;">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="logged_in.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="portfolio.html">About Portfolio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="python.html">Python</a></li>
+                            <li><a class="dropdown-item" href="java.html">Java</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Hobbies</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- <a href="https://website123.auth.ap-south-1.amazoncognito.com/logout?client_id=3solovk84tq351abgus5ufl26u&logout_uri=https%3A%2F%2Fbilalchronicle.in%2Flogged_out.html" target="_blank" class="btn btn-outline-primary" style="    background-color: #04263b; color: #f5f6fa;" type="submit">Logout</a> -->
+ 
+            </div>
+        </div>
+    </nav>
+    <marquee behavior="scroll" direction="left"
+            style="font-size: large; font-weight: bold;background-color: #acb4bf;">Welcome to Mohammed's Portfolio
+        </marquee>
+       
+ 
+        <!-- <h1 style="margin-left: 320px;"> Review</h1> -->
+ 
+    <form id="contactForm" style="margin-left:323px;">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Name</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Recommend any changes</label>
+            <input type="text" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputRating" class="form-label">Rating</label>
+            <select class="form-select" id="exampleInputRating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <div id="ratingHelp" class="form-text">Your rating will remain confidential.</div>
+        </div>
+        <button type="button" class="btn btn-primary" id="submitBtn">Submit</button>
+    </form>
+ 
+    <script>
+        $(document).ready(function () {
+            $('#submitBtn').click(function () {
+                var name = $('#exampleInputEmail1').val();
+                var changes = $('#exampleInputPassword1').val();
+                var rating = $('#exampleInputRating').val();
+ 
+                var postData = {
+                    "Name": name,
+                    "Changes": changes,
+                    "Rating": parseInt(rating)
+                };
+ 
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://cxfxxvbiij.execute-api.ap-south-1.amazonaws.com/prod/reviewtable',
+                    contentType: 'application/json',
+                    data: JSON.stringify(postData),
+                    success: function (response) {
+                        alert('Data submitted successfully!');
+                        // Optionally, you can perform additional actions after successful submission
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Data submitted successfully!: ' + error);
+                        // Handle error if submission fails
+                    }
+                });
+            });
+        });
+    </script>
+       
+    <svg id="wave" style="transform:rotate(0deg); transition: 0.3s" viewBox="0 0 1440 490" version="1.1"
+        xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
+                <stop stop-color="rgba(22, 25, 43, 1)" offset="0%"></stop>
+                <stop stop-color="rgba(60.357, 71.946, 141.481, 1)" offset="100%"></stop>
+            </linearGradient>
+        </defs>
+        <path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)"
+            d="M0,392L30,359.3C60,327,120,261,180,269.5C240,278,300,359,360,375.7C420,392,480,343,540,302.2C600,261,660,229,720,187.8C780,147,840,98,900,138.8C960,180,1020,310,1080,359.3C1140,408,1200,376,1260,375.7C1320,376,1380,408,1440,392C1500,376,1560,310,1620,269.5C1680,229,1740,212,1800,171.5C1860,131,1920,65,1980,49C2040,33,2100,65,2160,106.2C2220,147,2280,196,2340,204.2C2400,212,2460,180,2520,187.8C2580,196,2640,245,2700,285.8C2760,327,2820,359,2880,351.2C2940,343,3000,294,3060,261.3C3120,229,3180,212,3240,196C3300,180,3360,163,3420,163.3C3480,163,3540,180,3600,228.7C3660,278,3720,359,3780,359.3C3840,359,3900,278,3960,212.3C4020,147,4080,98,4140,130.7C4200,163,4260,278,4290,334.8L4320,392L4320,490L4290,490C4260,490,4200,490,4140,490C4080,490,4020,490,3960,490C3900,490,3840,490,3780,490C3720,490,3660,490,3600,490C3540,490,3480,490,3420,490C3360,490,3300,490,3240,490C3180,490,3120,490,3060,490C3000,490,2940,490,2880,490C2820,490,2760,490,2700,490C2640,490,2580,490,2520,490C2460,490,2400,490,2340,490C2280,490,2220,490,2160,490C2100,490,2040,490,1980,490C1920,490,1860,490,1800,490C1740,490,1680,490,1620,490C1560,490,1500,490,1440,490C1380,490,1320,490,1260,490C1200,490,1140,490,1080,490C1020,490,960,490,900,490C840,490,780,490,720,490C660,490,600,490,540,490C480,490,420,490,360,490C300,490,240,490,180,490C120,490,60,490,30,490L0,490Z">
+        </path>
+    </svg>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="logged_in.html">Home</a></li>
+                    <li><a href="portfolio.html">About Portfolio</a></li>
+                    <li><a href="document.html">Documents</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>10-3-292/7, Vijay Nagar Colony,</p>
+                <p>Power Zone Gym Street, Hyd</p>
+                <p>Phone: +91 7288001629</p>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <ul>
+                    <li><a href="https://www.linkedin.com/in/mohd-bilal-ahmed-432996260" target="_blank"><i
+                                class="fab fa-twitter"></i> Linkedin</a></li>
+                    <li><a href="https://www.instagram.com/bilal_khanz1?igsh=Z3diend1OGc1Y210" target="_blank"><i
+                                class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="mailto:bilall3051@gmail.com" target="_blank"><i class="far fa-envelope"></i> Gmail</a>
+                    </li>
+                    <li><a href="https://github.com/Bilall-ahmed" target="_blank"><i class="fab fa-github"></i>
+                            GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 B.Chronicle. All Rights Reserved.</p>
+        </div>
+    </footer>
+ 
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+ 
+</body>
+ 
+</html>
